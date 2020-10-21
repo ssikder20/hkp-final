@@ -1,11 +1,12 @@
+// Import libraries and databases
+// - Express is the monolith server backend
+// - Item database
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../middleware/verifyToken");
 const Cart = require("../models/Cart");
 
-router.get("/cart", verifyToken, async (req, res, next) => {
+router.get("/cart", async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
-
   try {
     const cart = await Cart.find({ username: user.username });
     res.send(cart);
@@ -14,13 +15,16 @@ router.get("/cart", verifyToken, async (req, res, next) => {
   }
 });
 
-router.post("/cart", verifyToken, async (req, res, next) => {
+router.post("/cart", async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
   await Cart.deleteMany({ username: user.username });
+
   const cart = req.body.cart;
 
   for (let i = 0; i < cart.length; ++i) {
     const item = cart[i];
+    console.log(req.body.token);
+
     const cartItem = new Cart({
       username: user.username,
       name: item["name"],
@@ -29,12 +33,13 @@ router.post("/cart", verifyToken, async (req, res, next) => {
       image: item["image"],
     });
 
-    await cartItem.save();
-  }
-
-  try {
-    res.send(cart);
-  } catch (err) {
-    res.status(400).send({ message: err });
+    try {
+      await cartItem.save();
+      res.send({ message: "Cart saved." });
+    } catch (err) {
+      res.status(400).send({ message: err });
+    }
   }
 });
+
+module.exports = router;

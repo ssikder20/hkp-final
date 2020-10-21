@@ -1,39 +1,32 @@
 const router = require("express").Router();
-const jwt = require("jsonwebtoken");
-const verifyToken = require("../middleware/verifyToken");
+const Metric = require("../models/Metric");
 const Cart = require("../models/Cart");
+const verifyToken = require("../middleware/verifyToken");
+const jwt = require("jsonwebtoken");
 
-router.get("/cart", verifyToken, async (req, res, next) => {
+router.post("/checkout", verifyToken, async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
 
-  try {
-    const cart = await Cart.find({ username: user.username });
-    res.send(cart);
-  } catch (err) {
-    res.status(400).send({ message: err });
-  }
-});
-
-router.post("/cart", verifyToken, async (req, res, next) => {
-  const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
   await Cart.deleteMany({ username: user.username });
   const cart = req.body.cart;
+  const date = new Date();
 
   for (let i = 0; i < cart.length; ++i) {
     const item = cart[i];
-    const cartItem = new Cart({
+    const checkoutItem = new Metric({
       username: user.username,
       name: item["name"],
       description: item["description"],
       quantity: Number(item["quantity"]),
       image: item["image"],
+      timeBought: date.getTime(),
     });
 
-    await cartItem.save();
+    checkoutItem.save();
   }
 
   try {
-    res.send(cart);
+    res.send({ message: "Purchase complete" });
   } catch (err) {
     res.status(400).send({ message: err });
   }
