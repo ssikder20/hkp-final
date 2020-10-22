@@ -15,26 +15,28 @@ router.get("/cart", verifyToken, async (req, res, next) => {
 });
 
 router.post("/cart", verifyToken, async (req, res, next) => {
-  const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
-  await Cart.deleteMany({ username: user.username });
-  const cart = req.body.cart;
-
-  for (let i = 0; i < cart.length; ++i) {
-    const item = cart[i];
-    const cartItem = new Cart({
-      username: user.username,
-      name: item["name"],
-      description: item["description"],
-      quantity: Number(item["quantity"]),
-      image: item["image"],
-    });
-
-    await cartItem.save();
-  }
-
   try {
+    const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
+    await Cart.deleteMany({ username: user.username });
+    const cart = req.body.cart;
+
+    for (let i = 0; i < cart.length; ++i) {
+      const item = cart[i];
+      const cartItem = new Cart({
+        username: user.username,
+        name: item["name"],
+        description: item["description"],
+        quantity: Number(item["quantity"]),
+        image: item["image"],
+      });
+
+      cartItem.save();
+    }
+
     res.send(cart);
   } catch (err) {
     res.status(400).send({ message: err });
   }
 });
+
+module.exports = router;

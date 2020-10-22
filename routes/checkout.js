@@ -31,3 +31,5 @@ router.post("/checkout", verifyToken, async (req, res, next) => {
     res.status(400).send({ message: err });
   }
 });
+
+module.exports = router;

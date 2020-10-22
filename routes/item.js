@@ -17,6 +17,7 @@ router.post(
   verifyToken,
   verifyAdmin,
   async (req, res, next) => {
+    res.send("Here");
     const itemName = await Item.find({ name: req.body.name });
     if (itemName.length > 0)
       return res.status(409).send({ message: "Item already exists." });
