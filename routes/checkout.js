@@ -8,7 +8,7 @@ router.post("/checkout", verifyToken, async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
 
   await Cart.deleteMany({ username: user.username });
-  const cart = req.body.cart;
+  const cart = req.body.items;
   const date = new Date();
 
   for (let i = 0; i < cart.length; ++i) {

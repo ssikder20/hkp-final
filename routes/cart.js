@@ -8,7 +8,7 @@ router.post("/cart", verifyToken, async (req, res, next) => {
 
   try {
     const cart = await Cart.find({ username: user.username });
-    res.send({ cart: cart });
+    res.send({ items: cart });
   } catch (err) {
     res.status(400).send({ message: err });
   }
