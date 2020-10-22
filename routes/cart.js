@@ -7,8 +7,21 @@ router.post("/cart", verifyToken, async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
 
   try {
-    const cart = await Cart.find({ username: user.username });
-    res.send({ items: cart });
+    var cart = await Cart.find({ username: user.username });
+    var newCart = [];
+
+    for (let i = 0; i < cart.length; ++i) {
+      const item = {
+        _id: cart[i]._id,
+        name: cart[i].name,
+        description: cart[i].description,
+        quantity: cart[i].quantity,
+        __v: cart[i].__v,
+      };
+      newCart.push(item);
+    }
+
+    res.send({ items: newCart });
   } catch (err) {
     res.status(400).send({ message: err });
   }
