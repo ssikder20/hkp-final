@@ -3,18 +3,18 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/verifyToken");
 const Cart = require("../models/Cart");
 
-router.get("/cart", verifyToken, async (req, res, next) => {
+router.post("/cart", verifyToken, async (req, res, next) => {
   const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
 
   try {
     const cart = await Cart.find({ username: user.username });
-    res.send(cart);
+    res.send({ cart: cart });
   } catch (err) {
     res.status(400).send({ message: err });
   }
 });
 
-router.post("/cart", verifyToken, async (req, res, next) => {
+router.post("/cart/create", verifyToken, async (req, res, next) => {
   try {
     const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
     await Cart.deleteMany({ username: user.username });
@@ -33,7 +33,7 @@ router.post("/cart", verifyToken, async (req, res, next) => {
       cartItem.save();
     }
 
-    res.send(cart);
+    res.send({ message: "Cart created / modified." });
   } catch (err) {
     res.status(400).send({ message: err });
   }
