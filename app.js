@@ -12,6 +12,7 @@ var registerRouter = require("./routes/register");
 var itemRouter = require("./routes/item");
 var cartRouter = require("./routes/cart");
 var checkoutRouter = require("./routes/checkout");
+var isAdminRouter = require("./routes/isAdmin");
 
 var app = express();
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/", registerRouter);
 app.use("/", itemRouter);
 app.use("/", cartRouter);
 app.use("/", checkoutRouter);
+app.use("/", isAdminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
