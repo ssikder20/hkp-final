@@ -3,7 +3,7 @@ const Item = require("../models/Item");
 const verifyToken = require("../middleware/verifyToken");
 const verifyAdmin = require("../middleware/verifyAdmin");
 
-router.get("/items/list", verifyToken, async (req, res, next) => {
+router.post("/items/list", verifyToken, async (req, res, next) => {
   try {
     const items = await Item.find({});
     res.send({ items: items });

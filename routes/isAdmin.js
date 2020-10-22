@@ -2,7 +2,7 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-router.get("/isAdmin", async (req, res, next) => {
+router.post("/isAdmin", async (req, res, next) => {
   const token = req.body.token;
   const user = jwt.verify(token, process.env.TOKEN_SECRET);
 
