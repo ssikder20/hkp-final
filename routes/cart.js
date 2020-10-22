@@ -18,7 +18,7 @@ router.post("/cart/create", verifyToken, async (req, res, next) => {
   try {
     const user = jwt.verify(req.body.token, process.env.TOKEN_SECRET);
     await Cart.deleteMany({ username: user.username });
-    const cart = req.body.cart;
+    const cart = req.body.items;
 
     for (let i = 0; i < cart.length; ++i) {
       const item = cart[i];
