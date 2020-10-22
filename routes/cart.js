@@ -15,6 +15,7 @@ router.post("/cart", verifyToken, async (req, res, next) => {
         _id: cart[i]._id,
         name: cart[i].name,
         description: cart[i].description,
+        image: cart[i].image,
         quantity: cart[i].quantity,
         __v: cart[i].__v,
       };
