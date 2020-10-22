@@ -125,7 +125,7 @@ Note: This route requires a token of a user with admin privileges
 #### Response
 ```json
 {
-  "cart": [
+  "items": [
     {
       "_id": "5f9117b8175d3a19357a5189",
       "username": "zebra",
@@ -179,7 +179,7 @@ Note: This route requires a token of a user with admin privileges
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplYnJhIiwiaWF0IjoxNjAzMzIzMzg4LCJleHAiOjE2MDM0MDk3ODh9.q42BzUhyN3iiQqLCA4NU9OUNILkmcCjcn4rVm80DDcg",
-  "cart": [
+  "items": [
     {
       "name": "bapple",
       "description": "apple",
