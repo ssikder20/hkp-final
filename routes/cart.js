@@ -37,10 +37,10 @@ router.post("/cart/create", verifyToken, async (req, res, next) => {
       const item = cart[i];
       const cartItem = new Cart({
         username: user.username,
-        name: item["name"],
-        description: item["description"],
-        quantity: Number(item["quantity"]),
-        image: item["image"],
+        name: item.name,
+        description: item.description,
+        quantity: Number(item.quantity),
+        image: item.image,
       });
 
       cartItem.save();

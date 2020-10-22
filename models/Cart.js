@@ -10,6 +10,7 @@ const cartSchema = new mongoose.Schema({
   name: { type: String },
   description: { type: String },
   quantity: { type: Number },
+  image: { type: String },
 });
 
 module.exports = mongoose.model("Cart", cartSchema);
