@@ -1,9 +1,14 @@
 const router = require("express").Router();
 
 router.post("/anything", async (req, res, next) => {
-  const image = req.body.image;
-  console.log(image);
-  res.send("Gotten.");
+  const items = req.body.items;
+
+  for (let i = 0; i < items.length; ++i) {
+    const item = items[i];
+    console.log(item.image);
+  }
+
+  res.send({ message: "Got" });
 });
 
 module.exports = router;
